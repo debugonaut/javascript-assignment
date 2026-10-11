@@ -188,8 +188,8 @@ html_content = f"""<!DOCTYPE html>
   </div>
 
   <div class="links">
-    Deployed / Application Link: <a href="http://localhost:4200/">student-expense-tracker</a><br>
-    Github Repository for code: <a href="https://github.com/debugonaut/javascript-assignment">Codes</a>
+    Deployed / Application Link: <a href="https://javascript-assignment-sable-one.vercel.app/">javascript-assignment-sable-one.vercel.app</a><br>
+    Github Repository for code: <a href="https://github.com/debugonaut/javascript-assignment.git">Codes</a>
   </div>
 
   <div class="aim">

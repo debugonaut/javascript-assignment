@@ -1,5 +1,11 @@
 # Student Expense Tracker 💸
 
+[![Live Demo on Vercel](https://img.shields.io/badge/Vercel-Live_Demo-black?logo=vercel)](https://javascript-assignment-sable-one.vercel.app/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/debugonaut/javascript-assignment.git)
+
+🔗 **Live Deployment:** [https://javascript-assignment-sable-one.vercel.app/](https://javascript-assignment-sable-one.vercel.app/)  
+📦 **GitHub Repository:** [https://github.com/debugonaut/javascript-assignment.git](https://github.com/debugonaut/javascript-assignment.git)
+
 A clean, minimalist Single Page Application (SPA) demonstrating core client-side JavaScript capabilities: in-memory Array pipelines, JSON serialization, multi-step input validation using a **shadcn Stepper Component**, and **Google Sans** typography.
 
 Designed for Web Technology Practical 2 by **Aadesh Khande** (PRN: `202401100090`, Div B, Batch B1).

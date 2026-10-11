@@ -5,8 +5,8 @@
 **Div:** B **Batch:** B1  
 
 **Application Name:** Student Expense Tracker (with shadcn Stepper Component & Google Sans)  
-**Deployed Link:** [Student Expense Tracker](http://localhost:4200/)  
-**Github Repository for code:** [Codes](https://github.com/debugonaut/javascript-assignment)  
+**Deployed Link:** [Student Expense Tracker](https://javascript-assignment-sable-one.vercel.app/)  
+**Github Repository for code:** [Codes](https://github.com/debugonaut/javascript-assignment.git)  
 
 ---
 
