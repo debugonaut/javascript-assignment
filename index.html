@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Expense Tracker | JavaScript Array & JSON Validation</title>
+  <meta name="description" content="A simple, interactive student expense tracker demonstrating JavaScript Array operations, JSON serialization, and input validation.">
+  
+  <!-- Google Sans & JetBrains Mono Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Minimal Top Bar inspired by Nupoor's assignment -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="nav-left">
+        <span class="nav-brand">Tracker</span>
+        <span class="nav-sep">/</span>
+        <span class="nav-sub">Student Expense Manager</span>
+      </div>
+      <div class="nav-right">
+        <span class="status-indicator"></span>
+        <span class="student-info">Aadesh Khande · 202401100090 · Div B (B1)</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Centered Container -->
+  <main class="page-container">
+    
+    <!-- Top KPI Summary Bar (Computed via Array.reduce & Array.length) -->
+    <div class="summary-cards">
+      <div class="summary-card">
+        <span class="summary-label">Total Spent</span>
+        <span class="summary-value tabular-nums" id="total-amount">₹0</span>
+        <span class="summary-code">Array.reduce()</span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">Total Entries</span>
+        <span class="summary-value tabular-nums" id="total-count">0</span>
+        <span class="summary-code">Array.length</span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">Top Category</span>
+        <span class="summary-value" id="top-category">-</span>
+        <span class="summary-code">Array.filter()</span>
+      </div>
+    </div>
+
+    <!-- Main Card: Add Expense Form with shadcn Stepper Component -->
+    <div class="card form-card">
+      <div class="card-header">
+        <h2 class="card-title">Add Student Expense</h2>
+        <p class="card-desc">Step-by-step entry validated strictly before saving to the in-memory array.</p>
+      </div>
+
+      <!-- shadcn Stepper Component -->
+      <form id="expense-form" novalidate>
+        
+        <!-- Stepper Navigation -->
+        <nav class="stepper-nav" aria-label="Expense Form Progress">
+          <div class="step-item active" data-step="1" id="step-nav-1">
+            <span class="step-indicator" id="step-ind-1">1</span>
+            <div class="step-label-group">
+              <span class="step-title">Details</span>
+              <span class="step-desc">Title & Category</span>
+            </div>
+          </div>
+
+          <div class="stepper-separator" id="step-sep-1"></div>
+
+          <div class="step-item" data-step="2" id="step-nav-2">
+            <span class="step-indicator" id="step-ind-2">2</span>
+            <div class="step-label-group">
+              <span class="step-title">Financials</span>
+              <span class="step-desc">Amount & Date</span>
+            </div>
+          </div>
+
+          <div class="stepper-separator" id="step-sep-2"></div>
+
+          <div class="step-item" data-step="3" id="step-nav-3">
+            <span class="step-indicator" id="step-ind-3">3</span>
+            <div class="step-label-group">
+              <span class="step-title">Review</span>
+              <span class="step-desc">Confirm & JSON</span>
+            </div>
+          </div>
+        </nav>
+
+        <!-- STEP 1: Basic Information -->
+        <div class="step-panel" id="step-panel-1">
+          <div class="form-grid">
+            <!-- Title -->
+            <div class="form-group col-span-2">
+              <label for="title" class="form-label">
+                Expense Title <span class="req">*</span>
+                <span class="label-hint">3–30 chars, no numbers only</span>
+              </label>
+              <input type="text" id="title" class="input-control" placeholder="e.g. Semester Textbook or Canteen Lunch" maxlength="40" autocomplete="off">
+              <span id="err-title" class="field-error hidden"></span>
+            </div>
+
+            <!-- Category -->
+            <div class="form-group col-span-2">
+              <label for="category" class="form-label">
+                Category <span class="req">*</span>
+                <span class="label-hint">Select expense classification</span>
+              </label>
+              <select id="category" class="select-control">
+                <option value="">Select category...</option>
+                <option value="Food">Food & Canteen</option>
+                <option value="Travel">Travel & Commute</option>
+                <option value="Study">Study & Books</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Other">Other Miscellaneous</option>
+              </select>
+              <span id="err-category" class="field-error hidden"></span>
+            </div>
+          </div>
+
+          <div class="stepper-actions">
+            <div class="stepper-actions-right">
+              <button type="button" id="btn-next-1" class="btn btn-primary">
+                Continue to Financials →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Financials & Date -->
+        <div class="step-panel hidden" id="step-panel-2">
+          <div class="form-grid">
+            <!-- Amount -->
+            <div class="form-group">
+              <label for="amount" class="form-label">
+                Amount (₹ INR) <span class="req">*</span>
+                <span class="label-hint">₹1 to ₹1,00,000</span>
+              </label>
+              <input type="number" id="amount" class="input-control" placeholder="e.g. 250" min="1" max="100000" step="1">
+              <span id="err-amount" class="field-error hidden"></span>
+            </div>
+
+            <!-- Date -->
+            <div class="form-group">
+              <label for="date" class="form-label">
+                Date <span class="req">*</span>
+                <span class="label-hint">Cannot be in future</span>
+              </label>
+              <input type="date" id="date" class="input-control">
+              <span id="err-date" class="field-error hidden"></span>
+            </div>
+          </div>
+
+          <div class="stepper-actions">
+            <button type="button" id="btn-prev-2" class="btn btn-ghost">
+              ← Back
+            </button>
+            <div class="stepper-actions-right">
+              <button type="button" id="btn-next-2" class="btn btn-primary">
+                Review & Confirm →
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Review & Commit -->
+        <div class="step-panel hidden" id="step-panel-3">
+          <div class="review-card">
+            <div class="review-grid">
+              <div class="review-item">
+                <span class="review-label">Expense Title</span>
+                <span class="review-value" id="review-title">-</span>
+              </div>
+              <div class="review-item">
+                <span class="review-label">Category</span>
+                <span class="review-value" id="review-category">-</span>
+              </div>
+              <div class="review-item">
+                <span class="review-label">Amount</span>
+                <span class="review-value tabular-nums font-semibold" id="review-amount">-</span>
+              </div>
+              <div class="review-item">
+                <span class="review-label">Date</span>
+                <span class="review-value tabular-nums" id="review-date">-</span>
+              </div>
+            </div>
+
+            <div id="review-dup-badge" class="review-duplicate-badge is-ok">
+              <span id="review-dup-icon">✓</span>
+              <span id="review-dup-text">Unique entry (No duplicate found in array)</span>
+            </div>
+
+            <div class="candidate-json-box">
+              <span class="candidate-json-label">Candidate JSON Payload to append:</span>
+              <pre class="candidate-json-pre"><code id="review-json-code">{}</code></pre>
+            </div>
+          </div>
+
+          <div class="stepper-actions">
+            <button type="button" id="btn-prev-3" class="btn btn-ghost">
+              ← Back to Edit
+            </button>
+            <div class="stepper-actions-right">
+              <button type="submit" id="btn-submit" class="btn btn-primary submit-btn">
+                Add Expense to Array ✓
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Quick Test Scenarios Bar -->
+    <div class="test-scenarios">
+      <span class="scenarios-label">Test scenarios:</span>
+      <div class="scenarios-buttons">
+        <button type="button" id="btn-preset-valid" class="pill-btn pill-btn-valid">Valid</button>
+        <button type="button" id="btn-preset-invalid" class="pill-btn pill-btn-invalid">Invalid Bounds</button>
+        <button type="button" id="btn-preset-future" class="pill-btn pill-btn-invalid">Future Date</button>
+        <button type="button" id="btn-preset-duplicate" class="pill-btn pill-btn-duplicate">Duplicate</button>
+        <button type="button" id="btn-preset-clear" class="pill-btn pill-btn-clear">Clear</button>
+      </div>
+    </div>
+
+    <!-- Validation Diagnostics / Error Banner (Shown when validation fails) -->
+    <div id="diagnostics-card" class="diagnostics-box hidden">
+      <div class="diagnostics-header">
+        <span class="diag-dot"></span>
+        <span class="diag-title">Validation Error</span>
+      </div>
+      <div class="diagnostics-content">
+        <p id="diagnostics-summary">JavaScript validation rejected 1 or more inputs before saving:</p>
+        <ul id="diagnostics-list"></ul>
+      </div>
+    </div>
+
+    <!-- Ledger Card: Expenses List, Search, and Category Filter -->
+    <div class="card ledger-card">
+      <div class="ledger-header">
+        <div class="ledger-title-group">
+          <h3 class="card-title">Expense Ledger</h3>
+          <span class="badge" id="ledger-count">0 items</span>
+        </div>
+
+        <div class="ledger-controls">
+          <input type="text" id="search-input" class="search-input" placeholder="Search by title...">
+          <select id="filter-category" class="select-control filter-select">
+            <option value="ALL">All Categories</option>
+            <option value="Food">Food</option>
+            <option value="Travel">Travel</option>
+            <option value="Study">Study</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Expense Table -->
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Date</th>
+              <th class="th-amount">Amount</th>
+              <th class="th-action">Action</th>
+            </tr>
+          </thead>
+          <tbody id="expense-tbody">
+            <!-- Populated dynamically via script.js -->
+          </tbody>
+        </table>
+
+        <div id="empty-ledger" class="empty-state hidden">
+          <p>No expenses match the selected filter.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stored Data JSON Console Box -->
+    <div class="card json-box">
+      <div class="json-header">
+        <div class="json-header-left">
+          <span class="json-tab active" id="tab-json">JSON Data Array (<code id="json-array-count">0</code> items)</span>
+        </div>
+        <div class="json-header-right">
+          <button type="button" id="btn-copy-json" class="btn btn-ghost btn-xs">Copy</button>
+          <button type="button" id="btn-download-json" class="btn btn-ghost btn-xs">Export .json</button>
+          <button type="button" id="btn-reset-demo" class="btn btn-ghost btn-xs">Reset Sample Data</button>
+        </div>
+      </div>
+      <pre class="json-pre"><code id="json-content">[]</code></pre>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    <p>Web Technology · Practical 2: JavaScript Capabilities, JSON & Array Validation · Aadesh Khande</p>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast-msg" class="toast hidden"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
