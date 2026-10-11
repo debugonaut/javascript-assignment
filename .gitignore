@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Vercel deployment cache
+.vercel/
+
+# Python & Environment
+__pycache__/
+*.pyc
+.env
+.env.local
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

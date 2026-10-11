@@ -1,0 +1,19 @@
+{
+  "name": "student-expense-tracker",
+  "version": "1.0.0",
+  "description": "Student Expense Tracker web application with shadcn Stepper Component and Google Sans",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx -y serve .",
+    "dev": "python3 -m http.server 4200"
+  },
+  "keywords": [
+    "student-expense-tracker",
+    "shadcn-stepper",
+    "google-sans",
+    "javascript-validation",
+    "json-arrays"
+  ],
+  "author": "Aadesh Khande",
+  "license": "MIT"
+}
