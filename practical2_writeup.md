@@ -6,7 +6,7 @@
 
 **Application Name:** Student Expense Tracker (with shadcn Stepper Component & Google Sans)  
 **Deployed Link:** [Student Expense Tracker](http://localhost:4200/)  
-**Github Repository for code:** [Codes](https://github.com/aadeshkhande/student-expense-tracker)  
+**Github Repository for code:** [Codes](https://github.com/debugonaut/javascript-assignment)  
 
 ---
 
